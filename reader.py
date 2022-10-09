@@ -1,4 +1,5 @@
 
+import json
 import numpy as np
 import yaml
 
@@ -88,3 +89,30 @@ class KalibrReader(ExtrinsicReader):
         
     def int_idx_2_key(self, idx):
         return f'cam{idx}'
+    
+@register_reader('plain_json')
+class PlainJsonReader(ExtrinsicReader):
+    def __init__(self):
+        super().__init__('PlainJson')
+        
+        # This overwrites the parent class' initial value.
+        self.extrinsics = dict()
+        
+    def read(self, fn):
+        # Read the JSON file.
+        with open(fn, 'r') as fp:
+            j_obj = json.load(fp)
+            
+        # Get the "cameras" key.
+        # Should be a list of dictionaries.
+        cameras = j_obj['cameras']
+        
+        # Loop over all the cameras.
+        for cam in cameras:
+            raw_tf = np.array( cam['extrinsics']['T'], dtype=np.float64 )
+            
+            tf = inv_transform(raw_tf) \
+                if cam['extrinsics']['frame_1'] == 'rig' \
+                else raw_tf
+            
+            self.extrinsics[ cam['name'] ] = tf

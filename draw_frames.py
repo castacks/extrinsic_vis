@@ -12,18 +12,16 @@ from pytransform3d.transform_manager import TransformManager
 
 from .reader import READERS
 
-VALID_TYPES = READERS.keys()
-
 def handle_args():
-    global VALID_TYPES
+    valid_types = READERS.keys()
     
     parser = argparse.ArgumentParser(description='Draw frames of calibrated system. ')
     
     parser.add_argument('infile', type=str, 
                         help='The input file containing the calibration data. ')
-    parser.add_argument('--type', type=str, default='kalibr', 
-                        choices=VALID_TYPES,
-                        help='The type of the input file. Valid options are: kalibr, ros. ')
+    parser.add_argument('--format', type=str, default='kalibr', 
+                        choices=valid_types,
+                        help=f'The type of the input file. Valid options are: {valid_types}. ')
     parser.add_argument('--vis-size', type=float, default=0.4, 
                         help='The size limit of the visualization. Unit: m. ')
     
@@ -34,7 +32,7 @@ def main():
     args = handle_args()
     
     # Create the reader.
-    reader = READERS[args.type]()
+    reader = READERS[args.format]()
     
     # Read the calibration result.
     reader.read( args.infile )
