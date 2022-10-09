@@ -1,0 +1,5 @@
+calib_180.bag
+/data/april_6x6.yaml
+6
+omni-radtan
+Full command issued: rosrun kalibr tartan_calibrate --bag /data/calib_180.bag --target /data/april_6x6.yaml --topics  /camera_0/image_raw /camera_1/image_raw /camera_2/image_raw /camera_3/image_raw /camera_4/image_raw /camera_5/image_raw --models omni-radtan omni-radtan omni-radtan omni-radtan omni-radtan omni-radtan --dont-show-report --save_dir /data/final_experiments/experiment_0/

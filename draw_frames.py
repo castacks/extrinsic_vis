@@ -24,6 +24,8 @@ def handle_args():
     parser.add_argument('--type', type=str, default='kalibr', 
                         choices=VALID_TYPES,
                         help='The type of the input file. Valid options are: kalibr, ros. ')
+    parser.add_argument('--vis-size', type=float, default=0.4, 
+                        help='The size limit of the visualization. Unit: m. ')
     
     return parser.parse_args()
 
@@ -47,10 +49,11 @@ def main():
         T_rig_sensor = pt.transform_from( tf[:3, :3], tf[:3, 3] )
         tm.add_transform( cam_key, 'rig', T_rig_sensor )
 
+    # Plot the frames.
     ax = tm.plot_frames_in('rig', s=0.1)
-    ax.set_ylim( (-0.25, 0.25) )
-    ax.set_xlim( (-0.25, 0.25) )
-    ax.set_zlim( (-0.25, 0.25) )
+    ax.set_ylim( (-args.vis_size, args.vis_size) )
+    ax.set_xlim( (-args.vis_size, args.vis_size) )
+    ax.set_zlim( (-args.vis_size, args.vis_size) )
     plt.show()
     
     return 0
