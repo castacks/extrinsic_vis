@@ -16,6 +16,12 @@ python3 -m extrinsic_vis.draw_frames \
     --vis-size 0.25
 ```
 
+`--vis-size` controls the range of the plot. Unit is meter.
+
 # Note
 
 Currently, only Kalibr output is supported.
+
+# Who to talk to
+
+Yaoyu Hu \<yaoyuh@andrew.cmu.edu\>
